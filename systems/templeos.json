@@ -1,0 +1,7 @@
+{
+  "name": "TempleOS",
+  "image": "isos/templeos.iso",
+  "memory_mb": 512,
+  "cpu": "486",
+  "boot_order": [0, 1, 2]
+}
