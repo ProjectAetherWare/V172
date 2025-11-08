@@ -22,17 +22,18 @@
 
 <canvas id="screen"></canvas>
 
-<script src="emulator/libv86.js"></script>
+<script src="../emulator/libv86.js"></script>
 
 <script>
   const emulator = new V86({
-    wasm_path: "emulator/v86.wasm",
-    memory_size: 256 * 1024 * 1024,
-    vga_memory_size: 8 * 1024 * 1024,
+    wasm_path: "../emulator/v86.wasm",
 
     hda: {
-      url: "emulator/templeos.img",
+      url: "../emulator/templeos.img"
     },
+
+    memory_size: 256 * 1024 * 1024,
+    vga_memory_size: 8 * 1024 * 1024,
 
     autostart: true,
     screen_container: document.getElementById("screen")
