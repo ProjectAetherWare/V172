@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Booting TempleOS...</title>
+<style>
+  body {
+    margin: 0;
+    background: black;
+    color: white;
+    font-family: monospace;
+    overflow: hidden;
+  }
+  #screen {
+    width: 100vw;
+    height: 100vh;
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="screen"></canvas>
+
+<script src="emulator/libv86.js"></script>
+
+<script>
+  const emulator = new V86({
+    wasm_path: "emulator/v86.wasm",
+    memory_size: 256 * 1024 * 1024,
+    vga_memory_size: 8 * 1024 * 1024,
+
+    hda: {
+      url: "emulator/templeos.img",
+    },
+
+    autostart: true,
+    screen_container: document.getElementById("screen")
+  });
+</script>
+
+</body>
+</html>
