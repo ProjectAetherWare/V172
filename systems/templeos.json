@@ -1,7 +1,10 @@
 {
   "name": "TempleOS",
-  "image": "isos/templeos.iso",
-  "memory_mb": 512,
-  "cpu": "486",
+  "hda": {
+    "url": "../isos/TempleOS.ISO",
+    "async": true
+  },
+  "memory_size": 512 * 1024 * 1024,
+  "vga_memory_size": 8 * 1024 * 1024,
   "boot_order": [0, 1, 2]
 }
