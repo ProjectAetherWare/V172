@@ -2,42 +2,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Booting TempleOS...</title>
-<style>
-  body {
-    margin: 0;
-    background: black;
-    color: white;
-    font-family: monospace;
-    overflow: hidden;
-  }
-  #screen {
-    width: 100vw;
-    height: 100vh;
-    display: block;
-  }
-</style>
+<title>TempleOS (Booting)</title>
+<script src="../emulator/v86.js"></script>
 </head>
-<body>
+<body style="margin:0;background:black;color:white;font-family:monospace;">
 
-<canvas id="screen"></canvas>
-
-<script src="../emulator/libv86.js"></script>
+<canvas id="screen" style="width:100vw;height:100vh;"></canvas>
 
 <script>
-  const emulator = new V86({
+new V86({
     wasm_path: "../emulator/v86.wasm",
-
-    hda: {
-      url: "../emulator/templeos.img"
-    },
-
     memory_size: 256 * 1024 * 1024,
     vga_memory_size: 8 * 1024 * 1024,
-
-    autostart: true,
-    screen_container: document.getElementById("screen")
-  });
+    screen_container: document.getElementById("screen"),
+    hda: { url: "../isos/TempleOS.ISO" },
+    autostart: true
+});
 </script>
 
 </body>
