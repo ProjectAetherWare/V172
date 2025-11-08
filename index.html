@@ -2,24 +2,134 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>X172 BIOS</title>
-<link rel="stylesheet" href="style.css">
+<title>X172 BIOS Boot Menu</title>
+<style>
+  body {
+    background-color: #c0c0c0; /* Grey background */
+    color: #000000; /* Black text */
+    font-family: monospace;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+  }
+  .header {
+    background-color: #0000aa; /* Top bar blue */
+    color: #ffffff;
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #808080;
+  }
+  .header .title {
+    text-align: left;
+  }
+  .header .time {
+    text-align: center;
+    flex: 1;
+  }
+  .header .exit {
+    text-align: right;
+    cursor: pointer;
+  }
+  .menu {
+    background-color: #c0c0c0;
+    margin: 10px;
+    padding: 5px;
+    width: 400px;
+    border: 2px solid #ffffff;
+    border-right-color: #808080;
+    border-bottom-color: #808080;
+  }
+  .menu-item {
+    padding: 2px 5px;
+    color: #000000;
+    border-top: 1px solid #ffffff;
+    border-left: 1px solid #ffffff;
+    border-right: 1px solid #808080;
+    border-bottom: 1px solid #808080;
+    margin: 2px 0;
+    background-color: #c0c0c0;
+  }
+  .menu-item.selected {
+    background-color: #0000aa;
+    color: #ffffff;
+    border-color: #000000;
+  }
+  .footer {
+    background-color: #0000aa;
+    color: #ffffff;
+    padding: 5px 10px;
+    font-size: 12px;
+    margin-top: auto;
+    border-top: 2px solid #808080;
+  }
+</style>
 </head>
 <body>
+  <div class="header">
+    <div class="title">X172 BIOS</div>
+    <div class="time" id="time"></div>
+    <div class="exit" id="exitBtn">Exit</div>
+  </div>
+  <div class="menu" id="menu">
+    <div class="menu-item selected">TempleOS</div>
+    <div class="menu-item">Windows 95</div>
+    <div class="menu-item">Windows XP</div>
+    <div class="menu-item">ReactOS</div>
+    <div class="menu-item">Ubuntu Jammy (Minimal)</div>
+  </div>
+  <div class="footer">Use ↑ ↓ to select, Enter to boot</div>
 
-<div class="header">
-  <div class="title">X172 BIOS</div>
-  <div class="time" id="time"></div>
-  <div class="exit" id="exitBtn">Exit</div>
-</div>
+  <script>
+    // Time update
+    function updateTime() {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const seconds = now.getSeconds().toString().padStart(2, '0');
+      document.getElementById('time').textContent = `${hours}:${minutes}:${seconds}`;
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
 
-<div class="menu" id="menu">
-  <div class="menu-item selected" data-os="templeos">TempleOS</div>
-  <div class="menu-item" data-os="custom">Custom OS (Upload ISO Soon)</div>
-</div>
+    // Menu navigation
+    const menuItems = document.querySelectorAll('.menu-item');
+    let selectedIndex = 0;
 
-<div class="footer">Use ↑ ↓ to select, Enter to boot</div>
+    function updateMenuSelection() {
+      menuItems.forEach((item, index) => {
+        item.classList.toggle('selected', index === selectedIndex);
+      });
+    }
 
-<script src="bios.js"></script>
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') {
+        selectedIndex = (selectedIndex + 1) % menuItems.length;
+        updateMenuSelection();
+      } else if (e.key === 'ArrowUp') {
+        selectedIndex = (selectedIndex - 1 + menuItems.length) % menuItems.length;
+        updateMenuSelection();
+      } else if (e.key === 'Enter') {
+        const choice = menuItems[selectedIndex].textContent;
+
+        if (choice === "TempleOS") {
+          window.location.href = "boot/templeos.html";
+        } else {
+          alert(choice + " is not installed yet.");
+        }
+      }
+    });
+
+    // Exit closes tab
+    document.getElementById('exitBtn').addEventListener('click', () => {
+      window.close();
+    });
+  </script>
 </body>
 </html>
